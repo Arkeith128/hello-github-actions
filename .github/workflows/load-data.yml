@@ -4,24 +4,48 @@ on:
   workflow_dispatch:
     inputs:
       sandbox:
-        description: 'Environment'  # Description of the input.
-        required: false              # This input must be provided to run the workflow.
-        type: environment           # Specifies that the input should be a valid environment name.
+        description: 'Environment'
+        required: false
+        type: environment
+
 jobs:
-  # Initial job to set up the environment.
   load-data:
     runs-on: ubuntu-22.04        
     steps:
       - uses: actions/checkout@v4
 
-      - name: INSTALL SFDX  
-        run: npm install @salesforce/cli --global
+      # Cache SF CLI installation
+      - name: Cache SF CLI
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.npm
+            ~/.local/share/sf
+          key: sf-cli-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: sf-cli-${{ runner.os }}-
 
-      - name: Export package-lock after SF CLI
-        run: cat package-lock.json
+      # Install SF CLI if not cached
+      - name: Install SF CLI
+        run: npm install --global @salesforce/cli
       
+      - name: Print package-lock after SF CLI Install
+        run: cat package-lock.json
+        
+      # Cache SFDMU plugin
+      - name: Cache SFDMU
+        uses: actions/cache@v2
+        with:
+          path: ~/.sf/plugins
+          key: sfdmu-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: sfdmu-${{ runner.os }}-
+
+      # Install SFDMU plugin if not cached
       - name: Install SFDMU
         run: sf plugins install sfdmu --force
 
-      - name: Export package-lock after SFDMU
+      - name: Print package-lock after SFDMU Install
         run: cat package-lock.json
+
+      # Verify installations
+      - name: Check Installed Plugins
+        run: sf plugins --core
