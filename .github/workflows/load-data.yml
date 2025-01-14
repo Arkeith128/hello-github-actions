@@ -5,7 +5,7 @@ on:
     inputs:
       sandbox:
         description: 'Environment'  # Description of the input.
-        required: true              # This input must be provided to run the workflow.
+        required: false              # This input must be provided to run the workflow.
         type: environment           # Specifies that the input should be a valid environment name.
 jobs:
   # Initial job to set up the environment.
