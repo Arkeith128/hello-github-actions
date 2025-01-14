@@ -14,34 +14,50 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Cache SF CLI installation
+      # Generate a hashable file with installed SF CLI plugins
+      - name: Capture SF Plugins List
+        run: sf plugins --core > sf-plugins-list.txt || echo "No plugins found" > sf-plugins-list.txt
+
+      # Cache SF CLI using the hash of installed plugins
       - name: Cache SF CLI
-        uses: actions/cache@v4
+        uses: actions/cache@v2
         with:
           path: |
             ~/.npm
             ~/.local/share/sf
-          key: sf-cli-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          key: sf-cli-${{ runner.os }}-${{ hashFiles('sf-plugins-list.txt') }}
           restore-keys: sf-cli-${{ runner.os }}-
 
       # Install SF CLI if not cached
       - name: Install SF CLI
-        run: npm install --global @salesforce/cli
+        run: |
+          if ! command -v sf &> /dev/null; then
+            echo "SF CLI not found, installing..."
+            npm install --global @salesforce/cli
+          else
+            echo "SF CLI already installed, skipping..."
+          fi
       
 #      - name: Print package-lock after SF CLI Install
 #        run: cat package-lock.json
         
-      # Cache SFDMU plugin
+      # Cache SFDMU using the hash of installed plugins
       - name: Cache SFDMU
-        uses: actions/cache@v4
+        uses: actions/cache@v2
         with:
           path: ~/.sf/plugins
-          key: sfdmu-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          key: sfdmu-${{ runner.os }}-${{ hashFiles('sf-plugins-list.txt') }}
           restore-keys: sfdmu-${{ runner.os }}-
 
-      # Install SFDMU plugin if not cached
+      # Install SFDMU if not cached
       - name: Install SFDMU
-        run: sf plugins install sfdmu --force
+        run: |
+          if ! sf plugins list | grep -q sfdmu; then
+            echo "SFDMU not found, installing..."
+            sf plugins install sfdmu --force
+          else
+            echo "SFDMU already installed, skipping..."
+          fi
 
 #      - name: Print package-lock after SFDMU Install
 #        run: cat package-lock.json
