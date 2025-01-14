@@ -13,21 +13,6 @@ jobs:
     runs-on: ubuntu-22.04        
     steps:
       - uses: actions/checkout@v4    
-
-      - name: print local share directory before sf cli cache
-        run: ls -ltra ~/.local/share/
-        
-      # Cache SF CLI using the hash of installed plugins
-      - name: Cache SF CLI
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.npm
-            ~/.local/share/sf
-          key: sf-cli-${{ runner.os }}-${{ hashFiles('/home/runner/.local/share/sf/package-lock.json') }}
-
-      - name: print local share directory before sf cli
-        run: ls -ltra ~/.local/share/
         
       # Install SF CLI if not cached
       - name: Install SF CLI
@@ -51,14 +36,7 @@ jobs:
 #        run: cat package-lock.json
 
       - name: print plugins directory before sfdmu
-        run: ls -ltra ~/.local/share/
-        
-      # Cache SFDMU using the hash of installed plugins
-      - name: Cache SFDMU
-        uses: actions/cache@v4
-        with:
-          path: ~/.local/share/sf/
-          key: sfdmu-${{ runner.os }}-${{ hashFiles('/home/runner/.local/share/sf/package-lock.json') }}
+        run: ls -ltra ~/.local/share/        
 
       # Install SFDMU if not cached
       - name: Install SFDMU
