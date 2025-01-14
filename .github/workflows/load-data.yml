@@ -27,9 +27,14 @@ jobs:
       # Install SF CLI if not cached
       - name: Install SF CLI
         run: npm install --global @salesforce/cli
+
+      - name: add package-lock
+        run: git add package.json package-lock.json
       
       - name: Print package-lock after SF CLI Install
-        run: cat package-lock.json
+        run: |
+          echo "printing package-lock contents"
+          cat package-lock.json
         
       # Cache SFDMU plugin
 #     - name: Cache SFDMU
@@ -44,7 +49,9 @@ jobs:
         run: sf plugins install sfdmu --force
 
       - name: Print package-lock after SFDMU Install
-        run: cat package-lock.json
+        run: |
+          echo "printing package-lock contents"
+          cat package-lock.json
 
       # Verify installations
       - name: Check Installed Plugins
