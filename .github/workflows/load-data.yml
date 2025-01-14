@@ -29,6 +29,9 @@ jobs:
         run: |
           sf plugins --core > sf-plugins-list.txt || echo "No plugins found" > sf-plugins-list.txt
           cat sf-plugins-list.txt
+
+      - name: print plugins directory before sf cli
+        run: ls -ltra ~/.local/share/
         
       # Install SF CLI if not cached
       - name: Install SF CLI
@@ -66,6 +69,9 @@ jobs:
 
       - name: print plugins directory AFTER sfdmu
         run: ls -ltra ~/.local/share/sf/
+
+      - name: print package-lock AFTER sfdmu
+        run: cat ~/.local/share/sf/package-lock.json
         
 #      - name: Print package-lock after SFDMU Install
 #        run: cat package-lock.json
