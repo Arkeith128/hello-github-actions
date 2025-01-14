@@ -25,9 +25,8 @@ jobs:
             ~/.npm
             ~/.local/share/sf
           key: sf-cli-${{ runner.os }}-${{ hashFiles('${{ env.HOME }}/.local/share/sf/package-lock.json') }}
-#          restore-keys: sf-cli-${{ runner.os }}-
 
-      - name: print plugins directory before sf cli
+      - name: print local share directory before sf cli
         run: ls -ltra ~/.local/share/
         
       # Install SF CLI if not cached
@@ -38,6 +37,14 @@ jobs:
             npm install --global @salesforce/cli
           else
             echo "SF CLI already installed, skipping..."
+          fi
+
+      - name: check SF CLI installation
+        run: |
+          if ! command -v sf &> /dev/null; then
+            echo "SF CLI not found"
+          else
+            echo "SF CLI already installed"
           fi
       
 #      - name: Print package-lock after SF CLI Install
@@ -52,7 +59,6 @@ jobs:
         with:
           path: ~/.local/share/sf/
           key: sfdmu-${{ runner.os }}-${{ hashFiles('${{ env.HOME }}/.local/share/sf/package-lock.json') }}
-#          restore-keys: sfdmu-${{ runner.os }}-
 
       # Install SFDMU if not cached
       - name: Install SFDMU
