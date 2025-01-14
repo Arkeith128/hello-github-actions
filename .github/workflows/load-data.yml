@@ -44,7 +44,7 @@ jobs:
 #        run: cat package-lock.json
 
       - name: print plugins directory before sfdmu
-        run: ls -ltra ~/.sf/plugins
+        run: ls -ltra ~
         
       # Cache SFDMU using the hash of installed plugins
       - name: Cache SFDMU
@@ -65,7 +65,7 @@ jobs:
           fi
 
       - name: print plugins directory AFTER sfdmu
-        run: ls -ltra ~/.sf/plugins
+        run: ls -ltra ~/.sf/
         
 #      - name: Print package-lock after SFDMU Install
 #        run: cat package-lock.json
