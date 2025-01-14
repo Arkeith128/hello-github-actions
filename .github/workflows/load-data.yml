@@ -12,11 +12,7 @@ jobs:
   load-data:
     runs-on: ubuntu-22.04        
     steps:
-      - uses: actions/checkout@v4
-
-      # Generate a hashable file with installed SF CLI plugins
-      - name: Capture SF Plugins List
-        run: sf plugins --core > sf-plugins-list.txt || echo "No plugins found" > sf-plugins-list.txt
+      - uses: actions/checkout@v4    
 
       # Cache SF CLI using the hash of installed plugins
       - name: Cache SF CLI
@@ -28,6 +24,12 @@ jobs:
           key: sf-cli-${{ runner.os }}-${{ hashFiles('sf-plugins-list.txt') }}
           restore-keys: sf-cli-${{ runner.os }}-
 
+      # Generate a hashable file with installed SF CLI plugins
+      - name: Capture SF Plugins List
+        run: |
+          sf plugins --core > sf-plugins-list.txt || echo "No plugins found" > sf-plugins-list.txt
+          cat sf-plugins-list.txt
+        
       # Install SF CLI if not cached
       - name: Install SF CLI
         run: |
