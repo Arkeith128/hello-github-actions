@@ -1,0 +1,27 @@
+name: 'Post-Refresh: Load Data'
+
+on:
+  workflow_dispatch:
+    inputs:
+      sandbox:
+        description: 'Environment'  # Description of the input.
+        required: true              # This input must be provided to run the workflow.
+        type: environment           # Specifies that the input should be a valid environment name.
+jobs:
+  # Initial job to set up the environment.
+  load-data:
+    runs-on: ubuntu-22.04        
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: INSTALL SFDX  
+        run: npm install @salesforce/cli --global
+
+      - name: Export package-lock after SF CLI
+        run: cat package-lock.json
+      
+      - name: Install SFDMU
+        run: sf plugins install sfdmu --force
+
+      - name: Export package-lock after SFDMU
+        run: cat package-lock.json
