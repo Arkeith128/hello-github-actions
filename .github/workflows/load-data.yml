@@ -73,8 +73,8 @@ jobs:
       - name: print local sf directory AFTER sfdmu
         run: ls -ltra ~/.local/share/sf/
 
-      - name: print plugins directory AFTER sfdmu
-        run: ls -ltra ~/.sf/
+      - name: cat plugins afer dmu
+        run: cat '${{ env.HOME }}/.local/share/sf/package-lock.json'
 
       - name: print package-lock AFTER sfdmu
         run: cat ~/.local/share/sf/package-lock.json
