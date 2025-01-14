@@ -22,7 +22,7 @@ jobs:
             ~/.npm
             ~/.local/share/sf
           key: sf-cli-${{ runner.os }}-${{ hashFiles('sf-plugins-list.txt') }}
-          restore-keys: sf-cli-${{ runner.os }}-
+#          restore-keys: sf-cli-${{ runner.os }}-
 
       # Generate a hashable file with installed SF CLI plugins
       - name: Capture SF Plugins List
@@ -49,7 +49,7 @@ jobs:
         with:
           path: ~/.sf/plugins
           key: sfdmu-${{ runner.os }}-${{ hashFiles('sf-plugins-list.txt') }}
-          restore-keys: sfdmu-${{ runner.os }}-
+#          restore-keys: sfdmu-${{ runner.os }}-
 
       # Install SFDMU if not cached
       - name: Install SFDMU
