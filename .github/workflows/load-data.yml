@@ -20,7 +20,7 @@ jobs:
 
       # Cache SF CLI using the hash of installed plugins
       - name: Cache SF CLI
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: |
             ~/.npm
@@ -43,7 +43,7 @@ jobs:
         
       # Cache SFDMU using the hash of installed plugins
       - name: Cache SFDMU
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: ~/.sf/plugins
           key: sfdmu-${{ runner.os }}-${{ hashFiles('sf-plugins-list.txt') }}
@@ -52,7 +52,7 @@ jobs:
       # Install SFDMU if not cached
       - name: Install SFDMU
         run: |
-          if ! sf plugins list | grep -q sfdmu; then
+          if ! sf plugins --core | grep -q sfdmu; then
             echo "SFDMU not found, installing..."
             sf plugins install sfdmu --force
           else
