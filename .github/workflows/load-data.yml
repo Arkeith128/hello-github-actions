@@ -16,7 +16,7 @@ jobs:
 
       # Cache SF CLI installation
       - name: Cache SF CLI
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: |
             ~/.npm
@@ -28,12 +28,12 @@ jobs:
       - name: Install SF CLI
         run: npm install --global @salesforce/cli
       
-      - name: Print package-lock after SF CLI Install
-        run: cat package-lock.json
+#      - name: Print package-lock after SF CLI Install
+#        run: cat package-lock.json
         
       # Cache SFDMU plugin
       - name: Cache SFDMU
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: ~/.sf/plugins
           key: sfdmu-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
@@ -43,8 +43,8 @@ jobs:
       - name: Install SFDMU
         run: sf plugins install sfdmu --force
 
-      - name: Print package-lock after SFDMU Install
-        run: cat package-lock.json
+#      - name: Print package-lock after SFDMU Install
+#        run: cat package-lock.json
 
       # Verify installations
       - name: Check Installed Plugins
