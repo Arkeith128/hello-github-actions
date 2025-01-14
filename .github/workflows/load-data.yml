@@ -15,43 +15,36 @@ jobs:
       - uses: actions/checkout@v4
 
       # Cache SF CLI installation
-#      - name: Cache SF CLI
-#        uses: actions/cache@v2
-#        with:
-#          path: |
-#            ~/.npm
-#            ~/.local/share/sf
-#          key: sf-cli-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
-#          restore-keys: sf-cli-${{ runner.os }}-
+      - name: Cache SF CLI
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.npm
+            ~/.local/share/sf
+          key: sf-cli-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: sf-cli-${{ runner.os }}-
 
       # Install SF CLI if not cached
       - name: Install SF CLI
         run: npm install --global @salesforce/cli
-
-      - name: add package-lock
-        run: git add package.json package-lock.json
       
       - name: Print package-lock after SF CLI Install
-        run: |
-          echo "printing package-lock contents"
-          cat package-lock.json
+        run: cat package-lock.json
         
       # Cache SFDMU plugin
-#     - name: Cache SFDMU
-#       uses: actions/cache@v2
-#       with:
-#         path: ~/.sf/plugins
-#         key: sfdmu-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
-#         restore-keys: sfdmu-${{ runner.os }}-
+      - name: Cache SFDMU
+        uses: actions/cache@v2
+        with:
+          path: ~/.sf/plugins
+          key: sfdmu-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: sfdmu-${{ runner.os }}-
 
       # Install SFDMU plugin if not cached
       - name: Install SFDMU
         run: sf plugins install sfdmu --force
 
       - name: Print package-lock after SFDMU Install
-        run: |
-          echo "printing package-lock contents"
-          cat package-lock.json
+        run: cat package-lock.json
 
       # Verify installations
       - name: Check Installed Plugins
