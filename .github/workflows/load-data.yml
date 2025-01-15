@@ -56,7 +56,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.local/share/sf/    # Specify which directory to cache
-          key: sfdmu-${{ runner.os }}-${{ hashFiles('package-lock.json') }}        
+          key: sfdmu-${{ runner.os }}-v1        
 
       # Install SFDMU if not cached
       - name: Install SFDMU
@@ -70,15 +70,6 @@ jobs:
 
       - name: print local sf directory AFTER sfdmu
         run: ls -ltra ~/.local/share/sf/
-
-      - name: cat plugins afer dmu
-        run: cat "/home/runner/.local/share/sf/package-lock.json"
-
-      - name: print package-lock AFTER sfdmu
-        run: cat ~/.local/share/sf/package-lock.json
-        
-#      - name: Print package-lock after SFDMU Install
-#        run: cat package-lock.json
 
       # Verify installations
       - name: Check Installed Plugins
