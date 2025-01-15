@@ -14,6 +14,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4    
 
+      - name: check sf folder
+        run: ls -ltra ~/.local/share/
+        
       # Cache SF CLI using the hash of installed plugins
       - name: Cache SF CLI
         uses: actions/cache@v4
@@ -21,7 +24,8 @@ jobs:
           path: |
             ~/.npm
             /usr/local/bin/sf
-          key: sf-cli-${{ runner.os }}-${{ hashFiles('/home/runner/.local/share/sf/package-lock.json') }}
+            ~/.local/share/sf
+          key: sf-cli-${{ runner.os }}-v1
         
       # Install SF CLI if not cached
       - name: Install SF CLI
@@ -42,7 +46,7 @@ jobs:
           fi
 
       - name: check sf folder
-        run: ls -ltra /usr/local/bin/sf
+        run: ls -ltra ~/.local/share/
 
       - name: Ensure package-lock exists
         run: touch package-lock.json
