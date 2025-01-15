@@ -21,7 +21,7 @@ jobs:
           path: |
             ~/.npm
             ~/usr/local/bin/sf
-          key: sf-cli-${{ runner.os }}-${{ hashFiles('/home/runner/.local/share/sf/package-lock.json') }
+          key: sf-cli-${{ runner.os }}-${{ hashFiles('/home/runner/.local/share/sf/package-lock.json') }}
         
       # Install SF CLI if not cached
       - name: Install SF CLI
