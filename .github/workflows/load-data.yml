@@ -32,16 +32,21 @@ jobs:
             echo "SF CLI already installed"
           fi
 
-      - name: Ensure directory exists and create file
-        run: |
-          mkdir -p ~/.local/share/sf/ && touch ~/.local/share/sf/package-lock.json
+      - name: which sf
+        run: which sf
+
+      - name: sf version
+        run: sf --version
+
+      - name: Ensure package-lock exists
+        run: touch package-lock.json
     
        # Cache SFDMU using the hash of installed plugins
       - name: Cache SFDMU
         uses: actions/cache@v4
         with:
-          path: ~/.local/share/sf/
-          key: sfdmu-${{ runner.os }}-${{ hashFiles('/home/runner/.local/share/sf/package-lock.json') }}        
+          path: ~/.local/share/sf/    # Specify which directory to cache
+          key: sfdmu-${{ runner.os }}-${{ hashFiles('package-lock.json') }}        
 
       # Install SFDMU if not cached
       - name: Install SFDMU
