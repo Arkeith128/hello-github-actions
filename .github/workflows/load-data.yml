@@ -13,6 +13,15 @@ jobs:
     runs-on: ubuntu-22.04        
     steps:
       - uses: actions/checkout@v4    
+
+      # Cache SF CLI using the hash of installed plugins
+      - name: Cache SF CLI
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.npm
+            ~/usr/local/bin/sf
+          key: sf-cli-${{ runner.os }}-${{ hashFiles('/home/runner/.local/share/sf/package-lock.json') }
         
       # Install SF CLI if not cached
       - name: Install SF CLI
@@ -32,11 +41,8 @@ jobs:
             echo "SF CLI already installed"
           fi
 
-      - name: which sf
-        run: which sf
-
-      - name: sf version
-        run: sf --version
+      - name: check sf folder
+        run: ls -ltra ~/usr/local/bin/sf
 
       - name: Ensure package-lock exists
         run: touch package-lock.json
