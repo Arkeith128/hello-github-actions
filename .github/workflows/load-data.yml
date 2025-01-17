@@ -25,9 +25,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
-            /usr/local/lib/node_modules/@salesforce/      # backup sf cli folder
-            /usr/local/bin/sf/                            # backup sf commands (ex: sf plugins install ...)
-            ~/.local/share/sf/                            # backup sfdmu folder            
+            /usr/local/lib/node_modules/@salesforce/
+            /usr/local/bin/sf/
+            ~/.local/share/sf/
           key: sf-cli-SFDMU-${{ runner.os }}-v6
 
       - name: check for sfcli folder
