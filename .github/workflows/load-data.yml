@@ -33,9 +33,6 @@ jobs:
 
       - name: check for sfcli folder
         run: ls -ltra /usr/local/lib/node_modules
-
-      - name: check bin
-        run: ls -ltra /usr/local/bin/
         
       # Install SF CLI if not cached
       - name: Install SF CLI
@@ -46,7 +43,10 @@ jobs:
           else
             echo "SF CLI already installed, skipping..."
           fi
-
+          
+      - name: check bin for sf
+        run: ls -ltra /usr/local/bin/
+        
       # - name: AFTER cli install list last modified folders in desc order
       #   run: |
       #     sudo find / \( -path "/proc" -o -path "/dev" -o -path "/sys" -o -path "~/.npm" \) -prune -o -maxdepth 6 -type d -cmin -0.75 -exec stat --format='%y %n' {} + 2>/dev/null | sort -r
