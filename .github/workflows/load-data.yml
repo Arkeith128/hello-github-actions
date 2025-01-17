@@ -24,12 +24,10 @@ jobs:
       - name: Cache SF CLI & SFDMU
         uses: actions/cache@v4
         with:
-          path: |            
-            ~/.npm/
-            ~/.local/share/sf/
-            /usr/local/lib/node_modules/@salesforce/
-            /usr/local/bin/sf
-          key: sf-cli-SFDMU-${{ runner.os }}-v3
+          path: |                        
+            /usr/local/lib/node_modules/@salesforce/      # backup sf cli folder
+            /usr/local/bin/sf                             # backup sf commands (ex: sf plugins install ...)
+          key: sf-cli-SFDMU-${{ runner.os }}-v5
 
       - name: check for sfcli folder
         run: ls -ltra /usr/local/lib/node_modules
