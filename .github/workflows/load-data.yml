@@ -26,7 +26,7 @@ jobs:
         with:
           path: |
             /usr/local/lib/node_modules/@salesforce/      # backup sf cli folder
-            /usr/local/bin/sf                             # backup sf commands (ex: sf plugins install ...)
+            /usr/local/bin/sf/                            # backup sf commands (ex: sf plugins install ...)
             ~/.local/share/sf/                            # backup sfdmu folder            
           key: sf-cli-SFDMU-${{ runner.os }}-v6
 
