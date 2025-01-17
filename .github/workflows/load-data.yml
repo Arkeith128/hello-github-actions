@@ -47,9 +47,7 @@ jobs:
           fi
           
       - name: check bin for sf
-        run: ls -ltra /usr/local/bin/sf
-      - name: check bin for sfdx
-        run: ls -ltra /usr/local/bin/sfdx
+        run: ls -ltra /usr/local/bin/
         
       # - name: AFTER cli install list last modified folders in desc order
       #   run: |
