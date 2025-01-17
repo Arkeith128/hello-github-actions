@@ -25,7 +25,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |            
-            /usr/local/lib/node_modules/@salesforce/cli
+            /usr/local/lib/node_modules/@salesforce/
             ~/.local/share/sf/
           key: sf-cli-SFDMU-${{ runner.os }}-v2
         
@@ -91,3 +91,6 @@ jobs:
 
       - name: check which version of sf cli is installed
         run: sf --version
+
+      - name: check which version of sf cli v2
+        run: npm show @salesforce/cli version
