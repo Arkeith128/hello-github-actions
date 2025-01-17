@@ -18,7 +18,7 @@ jobs:
         run: ls -ltra ~/.local/share/
 
       - name: list last modified folders in desc order
-        run: sudo find / -type d -printf "%T+ %p\n" 2>/dev/null | sort -r
+        run: sudo find / -type d -cmin -0.75 -exec stat --format='%y %n' {} + 2>/dev/null | sort -r
         
       # Cache SF CLI using the hash of installed plugins
       # - name: Cache SF CLI
@@ -40,8 +40,8 @@ jobs:
             echo "SF CLI already installed, skipping..."
           fi
 
-      - name: list last modified folders in desc order
-        run: sudo find / -type d -printf "%T+ %p\n" 2>/dev/null | sort -r
+      - name: AFTER cli install list last modified folders in desc order
+        run: sudo find / -type d -cmin -0.75 -exec stat --format='%y %n' {} + 2>/dev/null | sort -r
         
       - name: check SF CLI installation
         run: |
@@ -74,8 +74,8 @@ jobs:
             echo "SFDMU already installed, skipping..."
           fi
 
-      - name: list last modified folders in desc order
-        run: sudo find / -type d -printf "%T+ %p\n" 2>/dev/null | sort -r
+      - name: AFTER SFDMU install list last modified folders in desc order
+        run: sudo find / -type d -cmin -0.75 -exec stat --format='%y %n' {} + 2>/dev/null | sort -r
         
       - name: print local sf directory AFTER sfdmu
         run: ls -ltra ~/.local/share/sf/
