@@ -42,7 +42,7 @@ jobs:
 
       - name: AFTER cli install list last modified folders in desc order
         run: |
-          sudo find / \( -path "/proc" -o -path "/dev" -o -path "/sys" -path "~/.npm" \) -prune -o -maxdepth 6 -type d -cmin -0.75 -exec stat --format='%y %n' {} + 2>/dev/null | sort -r
+          sudo find / \( -path "/proc" -o -path "/dev" -o -path "/sys" -o -path "~/.npm" \) -prune -o -maxdepth 6 -type d -cmin -0.75 -exec stat --format='%y %n' {} + 2>/dev/null | sort -r
 
       - name: AFTER cli last modified pt 2
         run: |
