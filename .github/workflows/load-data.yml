@@ -26,9 +26,9 @@ jobs:
         with:
           path: |
             ~/.local/share/sf/
-            /usr/local/bin/sf/            
+            /usr/local/bin/sf
             /usr/local/lib/node_modules/@salesforce/
-          key: sf-cli-SFDMU-${{ runner.os }}-v7
+          key: sf-cli-SFDMU-${{ runner.os }}-v8
 
       - name: check for sfcli folder
         run: ls -ltra /usr/local/lib/node_modules
