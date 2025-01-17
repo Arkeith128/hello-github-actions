@@ -43,7 +43,8 @@ jobs:
 
       - name: AFTER cli install list last modified folders in desc order
         run: |
-          sudo find / -maxdepth 6 -type d -cmin -0.75 -path "/proc" -prune -o -path "/dev" -prune -o -path "/sys" -prune -o -exec stat --format='%y %n' {} + 2>/dev/null | sort -r
+          sudo find / -maxdepth 6 -type d -cmin -0.75 \( -path "/proc" -prune \) -o \( -path "/dev" -prune \) -o \( -path "/sys" -prune \) -o -exec stat --format='%y %n' {} + 2>/dev/null | sort -r
+
 
         
       - name: check SF CLI installation
@@ -79,7 +80,7 @@ jobs:
 
       - name: AFTER SFDMU install list last modified folders in desc order
         run: |
-          sudo find / -maxdepth 6 -type d -cmin -0.75 -path "/proc" -prune -o -path "/dev" -prune -o -path "/sys" -prune -o -exec stat --format='%y %n' {} + 2>/dev/null | sort -r
+          sudo find / -maxdepth 6 -type d -cmin -0.75 \( -path "/proc" -prune \) -o \( -path "/dev" -prune \) -o \( -path "/sys" -prune \) -o -exec stat --format='%y %n' {} + 2>/dev/null | sort -r
         
       - name: print local sf directory AFTER sfdmu
         run: ls -ltra ~/.local/share/sf/
