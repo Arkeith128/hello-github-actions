@@ -16,16 +16,19 @@ jobs:
 
       - name: check sf folder
         run: ls -ltra ~/.local/share/
+
+      - name: list last modified folders in desc order
+        run: sudo find / -type d -printf "%T+ %p\n" 2>/dev/null | sort -r
         
       # Cache SF CLI using the hash of installed plugins
-      - name: Cache SF CLI
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.npm
-            /usr/local/bin/sf
-            ~/.local/share/sf
-          key: sf-cli-${{ runner.os }}-v1
+      # - name: Cache SF CLI
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: |
+      #       ~/.npm
+      #       /usr/local/bin/sf
+      #       ~/.local/share/sf
+      #     key: sf-cli-${{ runner.os }}-v1
         
       # Install SF CLI if not cached
       - name: Install SF CLI
@@ -37,6 +40,9 @@ jobs:
             echo "SF CLI already installed, skipping..."
           fi
 
+      - name: list last modified folders in desc order
+        run: sudo find / -type d -printf "%T+ %p\n" 2>/dev/null | sort -r
+        
       - name: check SF CLI installation
         run: |
           if ! command -v sf &> /dev/null; then
@@ -52,11 +58,11 @@ jobs:
         run: touch package-lock.json
     
        # Cache SFDMU using the hash of installed plugins
-      - name: Cache SFDMU
-        uses: actions/cache@v4
-        with:
-          path: ~/.local/share/sf/    # Specify which directory to cache
-          key: sfdmu-${{ runner.os }}-v1        
+      # - name: Cache SFDMU
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: ~/.local/share/sf/    # Specify which directory to cache
+      #     key: sfdmu-${{ runner.os }}-v1        
 
       # Install SFDMU if not cached
       - name: Install SFDMU
@@ -68,6 +74,9 @@ jobs:
             echo "SFDMU already installed, skipping..."
           fi
 
+      - name: list last modified folders in desc order
+        run: sudo find / -type d -printf "%T+ %p\n" 2>/dev/null | sort -r
+        
       - name: print local sf directory AFTER sfdmu
         run: ls -ltra ~/.local/share/sf/
 
