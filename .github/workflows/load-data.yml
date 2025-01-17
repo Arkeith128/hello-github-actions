@@ -26,8 +26,7 @@ jobs:
       #   with:
       #     path: |
       #       ~/.npm
-      #       /usr/local/bin/sf
-      #       ~/.local/share/sf
+      #       /usr/local/bin/sf      
       #       /usr/local/lib/node_modules/@salesforce/cli
       #     key: sf-cli-${{ runner.os }}-v1
         
@@ -43,7 +42,7 @@ jobs:
 
       - name: AFTER cli install list last modified folders in desc order
         run: |
-          sudo find / \( -path "/proc" -o -path "/dev" -o -path "/sys" \) -prune -o -maxdepth 6 -type d -cmin -0.75 -exec stat --format='%y %n' {} + 2>/dev/null | sort -r
+          sudo find / \( -path "/proc" -o -path "/dev" -o -path "/sys" -path "~/.npm" -o \) -prune -o -maxdepth 6 -type d -cmin -0.75 -exec stat --format='%y %n' {} + 2>/dev/null | sort -r
 
       - name: AFTER cli last modified pt 2
         run: |
@@ -59,6 +58,12 @@ jobs:
 
       - name: check sf folder
         run: ls -ltra ~/.local/share/
+
+      - name: check local bin folder
+        run: /usr/local/bin/
+
+      - name: check home folder
+        run: ls -ltra ~/
 
       - name: Ensure package-lock exists
         run: touch package-lock.json
@@ -82,7 +87,7 @@ jobs:
 
       - name: AFTER SFDMU install list last modified folders in desc order
         run: |
-          sudo find /usr /lib /var /opt /home ~/.local/ ~/.npm -maxdepth 6 -type d -cmin -0.75 -exec stat --format='%y %n' {} + 2>/dev/null | sort -r
+          sudo find /usr /lib /var /opt /home ~/.local/ \( -path "/usr/local/lib/node_modules/@salesforce" -o \) -prune -o -maxdepth 5 -type d -cmin -0.75 -exec stat --format='%y %n' {} + 2>/dev/null | sort -r
         
       - name: print local sf directory AFTER sfdmu
         run: ls -ltra ~/.local/share/sf/
