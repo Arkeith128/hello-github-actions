@@ -21,14 +21,13 @@ jobs:
       #   run: sudo find / -type d -cmin -0.75 -exec stat --format='%y %n' {} + 2>/dev/null | sort -r
         
       # Cache SF CLI using the hash of installed plugins
-      # - name: Cache SF CLI
-      #   uses: actions/cache@v4
-      #   with:
-      #     path: |
-      #       ~/.npm
-      #       /usr/local/bin/sf      
-      #       /usr/local/lib/node_modules/@salesforce/cli
-      #     key: sf-cli-${{ runner.os }}-v1
+      - name: Cache SF CLI & SFDMU
+        uses: actions/cache@v4
+        with:
+          path: |            
+            /usr/local/lib/node_modules/@salesforce/cli
+            ~/.local/share/sf/
+          key: sf-cli-SFDMU-${{ runner.os }}-v2
         
       # Install SF CLI if not cached
       - name: Install SF CLI
@@ -40,24 +39,24 @@ jobs:
             echo "SF CLI already installed, skipping..."
           fi
 
-      - name: AFTER cli install list last modified folders in desc order
-        run: |
-          sudo find / \( -path "/proc" -o -path "/dev" -o -path "/sys" -o -path "~/.npm" \) -prune -o -maxdepth 6 -type d -cmin -0.75 -exec stat --format='%y %n' {} + 2>/dev/null | sort -r
+      # - name: AFTER cli install list last modified folders in desc order
+      #   run: |
+      #     sudo find / \( -path "/proc" -o -path "/dev" -o -path "/sys" -o -path "~/.npm" \) -prune -o -maxdepth 6 -type d -cmin -0.75 -exec stat --format='%y %n' {} + 2>/dev/null | sort -r
 
-      - name: AFTER cli last modified pt 2
-        run: |
-          sudo find /lib /var /opt /home ~/.local/ -maxdepth 6 -type d -cmin -0.75 -exec stat --format='%y %n' {} + 2>/dev/null | sort -r
+      # - name: AFTER cli last modified pt 2
+      #   run: |
+      #     sudo find /lib /var /opt /home ~/.local/ -maxdepth 6 -type d -cmin -0.75 -exec stat --format='%y %n' {} + 2>/dev/null | sort -r
         
-      - name: check SF CLI installation
-        run: |
-          if ! command -v sf &> /dev/null; then
-            echo "SF CLI not found"
-          else
-            echo "SF CLI already installed"
-          fi
+      # - name: check SF CLI installation
+      #   run: |
+      #     if ! command -v sf &> /dev/null; then
+      #       echo "SF CLI not found"
+      #     else
+      #       echo "SF CLI already installed"
+      #     fi
 
-      - name: check sf folder
-        run: ls -ltra ~/.local/share/
+      # - name: check sf folder
+      #   run: ls -ltra ~/.local/share/
 
       - name: Ensure package-lock exists
         run: touch package-lock.json
@@ -67,7 +66,7 @@ jobs:
       #   uses: actions/cache@v4
       #   with:
       #     path: ~/.local/share/sf/    # Specify which directory to cache
-      #     key: sfdmu-${{ runner.os }}-v1        
+      #     key: sfdmu-${{ runner.os }}-v2
 
       # Install SFDMU if not cached
       - name: Install SFDMU
@@ -79,13 +78,16 @@ jobs:
             echo "SFDMU already installed, skipping..."
           fi
 
-      - name: AFTER SFDMU install list last modified folders in desc order
-        run: |
-          sudo find /usr /lib /var /opt /home ~/.local/ \( -path "/usr/local/lib/node_modules/@salesforce" \) -prune -o -maxdepth 5 -type d -cmin -0.75 -exec stat --format='%y %n' {} + 2>/dev/null | sort -r
+      # - name: AFTER SFDMU install list last modified folders in desc order
+      #   run: |
+      #     sudo find /usr /lib /var /opt /home ~/.local/ \( -path "/usr/local/lib/node_modules/@salesforce" \) -prune -o -maxdepth 5 -type d -cmin -0.75 -exec stat --format='%y %n' {} + 2>/dev/null | sort -r
         
-      - name: print local sf directory AFTER sfdmu
-        run: ls -ltra ~/.local/share/sf/
+      # - name: print local sf directory AFTER sfdmu
+      #   run: ls -ltra ~/.local/share/sf/
 
       # Verify installations
       - name: Check Installed Plugins
         run: sf plugins --core
+
+      - name: check which version of sf cli is installed
+        run: sf --version
