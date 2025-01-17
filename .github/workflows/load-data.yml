@@ -29,7 +29,7 @@ jobs:
           key: sf-cli-SFDMU-${{ runner.os }}-v3
 
       - name: check for sfcli folder
-        run: ls-ltra /usr/local/lib/node_modules
+        run: ls -ltra /usr/local/lib/node_modules
         
       # Install SF CLI if not cached
       - name: Install SF CLI
