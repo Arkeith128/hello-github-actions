@@ -60,7 +60,7 @@ jobs:
         run: ls -ltra ~/.local/share/
 
       - name: check local bin folder
-        run: /usr/local/bin/
+        run: ls -ltra /usr/local/bin/
 
       - name: check home folder
         run: ls -ltra ~/
