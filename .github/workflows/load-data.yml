@@ -42,7 +42,7 @@ jobs:
 
       - name: AFTER cli install list last modified folders in desc order
         run: |
-          sudo find / \( -path "/proc" -o -path "/dev" -o -path "/sys" -path "~/.npm" -o \) -prune -o -maxdepth 6 -type d -cmin -0.75 -exec stat --format='%y %n' {} + 2>/dev/null | sort -r
+          sudo find / \( -path "/proc" -o -path "/dev" -o -path "/sys" -path "~/.npm" \) -prune -o -maxdepth 6 -type d -cmin -0.75 -exec stat --format='%y %n' {} + 2>/dev/null | sort -r
 
       - name: AFTER cli last modified pt 2
         run: |
@@ -58,12 +58,6 @@ jobs:
 
       - name: check sf folder
         run: ls -ltra ~/.local/share/
-
-      - name: check local bin folder
-        run: ls -ltra /usr/local/bin/
-
-      - name: check home folder
-        run: ls -ltra ~/
 
       - name: Ensure package-lock exists
         run: touch package-lock.json
@@ -87,7 +81,7 @@ jobs:
 
       - name: AFTER SFDMU install list last modified folders in desc order
         run: |
-          sudo find /usr /lib /var /opt /home ~/.local/ \( -path "/usr/local/lib/node_modules/@salesforce" -o \) -prune -o -maxdepth 5 -type d -cmin -0.75 -exec stat --format='%y %n' {} + 2>/dev/null | sort -r
+          sudo find /usr /lib /var /opt /home ~/.local/ \( -path "/usr/local/lib/node_modules/@salesforce" \) -prune -o -maxdepth 5 -type d -cmin -0.75 -exec stat --format='%y %n' {} + 2>/dev/null | sort -r
         
       - name: print local sf directory AFTER sfdmu
         run: ls -ltra ~/.local/share/sf/
