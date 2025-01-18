@@ -18,7 +18,7 @@ jobs:
         run: pwd && ls -la
 
       - name: Make the script executable
-        run: chmod +x ./sf_install.sh  
+        run: chmod +x ./scripts/bash/sf_install.sh  
 
       # - name: check sf folder
       #   run: ls -ltra ~/.local/share/
@@ -34,14 +34,14 @@ jobs:
             ~/.local/share/sf/
             /usr/local/bin/sf
             /usr/local/lib/node_modules/@salesforce/
-          key: sf-cli-SFDMU-${{ runner.os }}-${{ hashFiles('sf_install.sh') }}-v1
+          key: sf-cli-SFDMU-${{ runner.os }}-${{ hashFiles('scripts/bash/sf_install.sh') }}-v1
         
       # Install SF CLI if not cached
       - name: Install SF CLI
         run: |
           if ! command -v sf &> /dev/null; then
             echo "SF CLI not found, installing..."
-            ./sf_install.sh
+            ./scripts/bash/sf_install.sh
           else
             echo "SF CLI already installed, skipping..."
           fi
