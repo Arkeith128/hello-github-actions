@@ -12,7 +12,13 @@ jobs:
   load-data:
     runs-on: ubuntu-22.04        
     steps:
-      - uses: actions/checkout@v4    
+      - uses: actions/checkout@v4
+
+      - name: Print current directory
+        run: pwd && ls -la
+
+      - name: Make the script executable
+        run: chmod +x ./sf_install.sh  
 
       # - name: check sf folder
       #   run: ls -ltra ~/.local/share/
@@ -28,26 +34,17 @@ jobs:
             ~/.local/share/sf/
             /usr/local/bin/sf
             /usr/local/lib/node_modules/@salesforce/
-          key: sf-cli-SFDMU-${{ runner.os }}-v8
-
-      - name: check for sfcli folder
-        run: ls -ltra /usr/local/lib/node_modules
-
-      - name: check bin for sf
-        run: ls -ltra /usr/local/bin
+          key: sf-cli-SFDMU-${{ runner.os }}-${{ hashFiles('sf_install.sh') }}-v1
         
       # Install SF CLI if not cached
       - name: Install SF CLI
         run: |
           if ! command -v sf &> /dev/null; then
             echo "SF CLI not found, installing..."
-            npm install --global @salesforce/cli
+            ./sf_install.sh
           else
             echo "SF CLI already installed, skipping..."
           fi
-          
-      - name: check bin for sf
-        run: ls -ltra /usr/local/bin/
         
       # - name: AFTER cli install list last modified folders in desc order
       #   run: |
@@ -56,27 +53,6 @@ jobs:
       # - name: AFTER cli last modified pt 2
       #   run: |
       #     sudo find /lib /var /opt /home ~/.local/ -maxdepth 6 -type d -cmin -0.75 -exec stat --format='%y %n' {} + 2>/dev/null | sort -r
-        
-      # - name: check SF CLI installation
-      #   run: |
-      #     if ! command -v sf &> /dev/null; then
-      #       echo "SF CLI not found"
-      #     else
-      #       echo "SF CLI already installed"
-      #     fi
-
-      # - name: check sf folder
-      #   run: ls -ltra ~/.local/share/
-
-      - name: Ensure package-lock exists
-        run: touch package-lock.json
-    
-       # Cache SFDMU using the hash of installed plugins
-      # - name: Cache SFDMU
-      #   uses: actions/cache@v4
-      #   with:
-      #     path: ~/.local/share/sf/    # Specify which directory to cache
-      #     key: sfdmu-${{ runner.os }}-v2
 
       # Install SFDMU if not cached
       - name: Install SFDMU
@@ -101,9 +77,3 @@ jobs:
 
       - name: check which version of sf cli is installed
         run: sf --version
-
-      - name: check which version of sf cli v2
-        run: npm show @salesforce/cli version
-
-      - name: which sf
-        run: which sf
