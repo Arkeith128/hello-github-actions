@@ -40,10 +40,10 @@ jobs:
       - name: Install SF CLI
         run: |
           if ! command -v sf &> /dev/null; then
-            echo "SF CLI not found, installing..."
+            echo "sf cli not found, installing..."
             ./scripts/bash/sf_install.sh
           else
-            echo "SF CLI already installed, skipping..."
+            echo "sf cli already installed, skipping..."
           fi
         
       # - name: AFTER cli install list last modified folders in desc order
