@@ -2,7 +2,7 @@
 
 # Install Salesforce CLI version 2.72.21
 echo "Installing Salesforce CLI version 2.72.21..."
-npm install --global @salesforce/cli
+npm install --global @salesforce/cli@2.72.21
 
 # Install SFDMU version 4.38.0
 echo "Installing SFDMU version 4.38.0..."
