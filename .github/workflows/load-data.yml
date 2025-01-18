@@ -26,7 +26,7 @@ jobs:
       # - name: list last modified folders in desc order
       #   run: sudo find / -type d -cmin -0.75 -exec stat --format='%y %n' {} + 2>/dev/null | sort -r
         
-      # Cache SF CLI using the hash of installed plugins
+      # Cache SF CLI using the hash of installation file
       - name: Cache SF CLI & SFDMU
         uses: actions/cache@v4
         with:
