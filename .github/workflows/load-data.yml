@@ -34,10 +34,11 @@ jobs:
             ~/.local/share/sf/
             /usr/local/bin/sf
             /usr/local/lib/node_modules/@salesforce/
-          key: sf-cli-SFDMU-${{ runner.os }}-${{ hashFiles('scripts/bash/sf_install.sh') }}-v1
+          key: sf-cli-SFDMU-${{ runner.os }}-${{ hashFiles('scripts/bash/sf_install.sh') }}
         
       # Install SF CLI if not cached
-      - name: Install SF CLI
+      # If SF CLI isn't there, then SFDMU isn't either
+      - name: Install SF CLI & SFDMU
         run: |
           if ! command -v sf &> /dev/null; then
             echo "sf cli not found, installing..."
@@ -55,7 +56,8 @@ jobs:
       #     sudo find /lib /var /opt /home ~/.local/ -maxdepth 6 -type d -cmin -0.75 -exec stat --format='%y %n' {} + 2>/dev/null | sort -r
 
       # Install SFDMU if not cached
-      - name: Install SFDMU
+      # SF CLI might be there, but SFDMU could be missing
+      - name: Check SFDMU Installation
         run: |
           if ! sf plugins --core | grep -q sfdmu; then
             echo "SFDMU not found, installing..."
